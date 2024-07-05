@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqlite/models/notedata.dart';
 import '../services/database_helper.dart';
 
 class AddPage extends StatefulWidget {
@@ -10,8 +11,8 @@ class AddPage extends StatefulWidget {
 
 class _AddPageState extends State<AddPage> {
   final _formKey = GlobalKey<FormState>();
-  final myTitle = TextEditingController();
-  final mydescription = TextEditingController();
+  final Note note = Note(title: "", description: "");
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class _AddPageState extends State<AddPage> {
               child: Column(
                 children: [
                   TextFormField(
-                    controller: myTitle,
+
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Titre',
@@ -40,12 +41,15 @@ class _AddPageState extends State<AddPage> {
                       }
                       return null;
                     },
+                    onSaved: (data){
+                      note.title=data!;
+                    },
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   TextFormField(
-                    controller: mydescription,
+
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Description',
@@ -56,15 +60,25 @@ class _AddPageState extends State<AddPage> {
                       }
                       return null;
                     },
+                    onSaved: (data){
+                      note.description=data!;
+                    },
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   OutlinedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if(_formKey.currentState!.validate()){
-                          var titre = myTitle.text;
-                          var description = mydescription.text;
+                          _formKey.currentState!.save();
+                        print(note) ;
+                         //var id= await  DatabaseHelper.addNote(Note(title: titre, description: description));
+
+
+                        // print(id);
+
+
+
                         }
                       },
                       child: Text("Ajouter la note")
