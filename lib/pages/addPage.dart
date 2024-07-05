@@ -45,7 +45,7 @@ class _AddPageState extends State<AddPage> {
                     height: 15,
                   ),
                   TextFormField(
-                    controller: myTitle,
+                    controller: mydescription,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Description',
@@ -63,7 +63,8 @@ class _AddPageState extends State<AddPage> {
                   OutlinedButton(
                       onPressed: () {
                         if(_formKey.currentState!.validate()){
-
+                          var titre = myTitle.text;
+                          var description = mydescription.text;
                         }
                       },
                       child: Text("Ajouter la note")
