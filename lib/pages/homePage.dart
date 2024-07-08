@@ -18,25 +18,33 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
-      body: ListView(
-        children: [
-          ListTile(
-            title: Text(
-              'Titre',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            subtitle: Text("Description"),
-            trailing: IconButton(
-                onPressed: () {
+      body: FutureBuilder(future: DatabaseHelper.getAllNote(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            // TODO: Handle this case.
+            case ConnectionState.waiting:
+              return Center(child: CircularProgressIndicator());
+            case ConnectionState.active:
+            // TODO: Handle this case.
+            case ConnectionState.done:
+            // TODO: Handle this case.
+              if (snapshot.data == null){
+                return Container();
+              }
+              else{
+                return ListView(
+                  children: snapshot.data!.map((e) =>
+                      ListTile(
+                        title: Text("${ e.title}"),
+                        subtitle: Text("${ e.description}"),
+                      ),).toList(),
+                );
+              }
 
-                },
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.green,
-                )
-            ),
-          )
-        ],
+          }
+        },
+
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
